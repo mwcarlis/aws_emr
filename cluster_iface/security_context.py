@@ -1,9 +1,13 @@
+#!/usr/bin/python
 """A security context module.
 """
 
+# Open-Source/Free Imports
 import csv
 import os
 
+# Private-IP Imports Carlis/Koumis.
+# import private_ip_lib
 
 class SecurityContext(object):
     """Abstract Security Context Object.
@@ -30,7 +34,9 @@ class AwsSecurityContext(SecurityContext):
 
     def __init__(self):
         if not self.KEY_FILE:
-            self.KEY_FILE = os.path.join(os.environ['HOME'], '.ssh/rootkey.csv')
+            self.KEY_FILE = os.path.join(os.environ['HOME'],
+                                         '.ssh/rootkey.csv')
+
         read_keyfile(self.KEY_FILE, self.AWS_KEYS)
         self.access_key_id = self.AWS_KEYS[self.ACCESS_KEY]
         self.secret_access_key = self.AWS_KEYS[self.SECRET_KEY]

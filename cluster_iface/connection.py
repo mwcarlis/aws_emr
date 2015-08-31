@@ -1,6 +1,13 @@
-from security_context import SecurityContext, AwsSecurityContext
-from boto.emr.connection import EmrConnection
+#!/usr/bin/python
+"""A Connection module.
+"""
 
+# Open-Source/Free Imports
+from boto.emr.connection import EmrConnection
+from boto.s3.connection import S3Connection
+
+# Private-IP Imports Carlis/Koumis.
+from security_context import SecurityContext, AwsSecurityContext
 
 class Connection(SecurityContext):
     """Abstract Connection Object.
@@ -15,9 +22,11 @@ class AwsConnection(AwsSecurityContext, Connection):
     """
     def __int__(self):
         super(AwsConnection, self).__init__()
-    def connect(self):
+    def emr_connect(self):
         self.emr_conn = EmrConnection(self.access_key_id,
                                       self.secret_access_key)
-
+    def s3_connect(self):
+        self.s3_conn = S3Connection(self.access_key_id,
+                                      self.secret_access_key)
 
 
