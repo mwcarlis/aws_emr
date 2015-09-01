@@ -28,16 +28,22 @@ class AwsJobRunner(AwsConnection, JobRunner):
         self.s3_connect()
 
     def get_storage(self, name):
+        """Get a reference to a AWS S3 bucket.
+        """
         self.bucket = self.s3_conn.get_bucket(name)
 
     def key_from_file(self, key, fname):
+        """Create an AWS s3 resource from fname.
+        """
         new_key = Key(self.bucket)
         self.keys[key] = new_key
         with open(fname, 'r') as file_d:
-            size_stored = key.set_contents_from_file(fname)
+            size_stored = key.set_contents_from_file(file_d)
         return size_stored
 
     def string_from_key(self, key):
+        """Turn an AWS s3 resource into a str.
+        """
         if key in self.keys:
             interest_key = self.keys[key]
         else:
@@ -94,30 +100,4 @@ if __name__ == '__main__':
             print cl.name, cl.id, st.state
         time.sleep(2)
 
-
-    # job_run.stream_steps('My wordcount example',
-    #                      's3n://facedata/wordSplitter.py',
-    #                      'aggregate',
-    #                      's3n://facedata/word_18',
-    #                      's3n://facedata/output')
-    # instance_groups = []
-    # instance_groups.append(InstanceGroup(
-    #     num_instances=1,
-    #     role="MASTER",
-    #     type="m1.small",
-    #     market="ON_DEMAND",
-    #     name="My cluster2"))
-    # instance_groups.append(InstanceGroup(
-    #     num_instances=2,
-    #     role="CORE",
-    #     type="m1.small",
-    #     market="ON_DEMAND",
-    #     name="Worker nodes"))
-    # instance_groups.append(InstanceGroup(
-    #     num_instances=2,
-    #     role="TASK",
-    #     type="m1.small",
-    #     market="SPOT",
-    #     name="My cheap spot nodes",
-    #     bidprice="0.002"))
 
