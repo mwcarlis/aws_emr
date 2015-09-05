@@ -92,7 +92,7 @@ if __name__ == '__main__':
     # import time
     # job_run = AwsJobRunner()
     aws_conf = AwsConfiguration()
-    print subprocess.check_output(['python', 'mr_job.py', '-r', 'emr',
-                                  'input/data_18.txt', '--output-dir=s3://my-bucket/testout/'])
+    #print subprocess.check_output(['python', 'mr_job.py', '-r', 'emr',
+    #                              'input/data_18.txt', '--output-dir=s3://facedata/testout/'])
 
 
