@@ -11,9 +11,13 @@ from boto.s3.key import Key
 from boto.emr.step import StreamingStep
 from boto.emr.instance_group import InstanceGroup
 
+from mrjob.job import MRJob
+
 # Private-IP Imports Carlis/Koumis.
 from cluster_iface.connection import AwsConnection
 from cluster_iface.configuration import AwsConfiguration
+
+from mr_job import MRWordFreqCount
 
 class JobRunner(object):
     """An abstract job runner object..
@@ -85,14 +89,44 @@ class AwsJobRunner(AwsConnection, JobRunner):
                                                 steps=[self.step])
 
     def terminate_the_connections(self):
-        # self.conn
+        """
+        """
         pass
 
 if __name__ == '__main__':
-    # import time
-    # job_run = AwsJobRunner()
-    aws_conf = AwsConfiguration()
-    #print subprocess.check_output(['python', 'mr_job.py', '-r', 'emr',
-    #                              'input/data_18.txt', '--output-dir=s3://facedata/testout/'])
+    config = AwsConfiguration()
+    max_wlen = 8
+    items = []
+    for sbucket in xrange(100):
+        # Find an s3 output that doesn't already exist.
+        try:
+            output_path = 's3://facedata/out2/trash{}'.format(sbucket)
+            output_arg = '--output-dir={}'.format(output_path)
+            arguments = ['-r', 'emr', 'input/data_18.txt', output_arg]
+            word_count = MRWordFreqCount(args=arguments)
+            with word_count.make_runner() as runner:
+                runner.run()
+                for line in runner.stream_output():
+                    key, value = word_count.parse_output_line(line)
+                    klen = len(key)
+                    if klen > max_wlen:
+                        max_wlen = klen
+                    items.append((key, value))
+            break
+        except IOError, excp:
+            if 'Output path' in excp.message and 'already exists' in excp.message:
+                # This bucket already exists, try another one.
+                continue
+            # We don't know what this exception is, re-raise it.
+            raise
+    #########################
+    # Lets give a nice output.
+    # making a table: fmat = '{:int(len_longest_word)}:\t{}'
+    pad = '{:' + '{}'.format(max_wlen) + '}'
+    fmat = '{}:\t{}'.format(pad, '{}')
 
+    print 'Output In: {}'.format(output_path)
+    print fmat.format('--WORD--', '--COUNT--')
+    for key, value in items:
+        print '  {}'.format(fmat.format(key, value))
 
