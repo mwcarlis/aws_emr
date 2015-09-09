@@ -1,0 +1,6 @@
+/home/mattc/amazon_emr/dataset/file1.txt
+/home/mattc/amazon_emr/dataset/file2.txt
+/home/mattc/amazon_emr/dataset/file3.txt
+/home/mattc/amazon_emr/dataset/file4.txt
+/home/mattc/amazon_emr/dataset/file5.txt
+/home/mattc/amazon_emr/dataset/file6.txt
