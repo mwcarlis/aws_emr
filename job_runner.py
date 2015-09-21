@@ -64,30 +64,6 @@ class AwsJobRunner(AwsConnection, JobRunner):
         print data
         return data
 
-    def stream_steps(self, name, mapper, reducer, d_in, d_out):
-        """A method to initialize the Streaming JobFlow Steps.
-        """
-        self.step = StreamingStep(name=name,
-                                  mapper=mapper,
-                                  reducer=reducer,
-                                  input=d_in,
-                                  output=d_out)
-
-    def init_job_flows(self, name, log_uri):
-        """A method to begin the job flow.
-        """
-        self.job_id = self.emr_conn.run_jobflow(name=name,
-                                                log_uri=log_uri,
-                                                #availability_zone='us-west-1#$a',
-                                                ec2_keyname='key_pair',
-                                                master_instance_type='m1.small',
-                                                num_instances=1,
-                                                action_on_failure='CONTINUE',
-                                                job_flow_role="EMR_EC2_DefaultRole",
-                                                service_role="EMR_DefaultRole",
-                                                enable_debugging=True,
-                                                steps=[self.step])
-
     def terminate_the_connections(self):
         """
         """

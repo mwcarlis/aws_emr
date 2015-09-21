@@ -35,14 +35,13 @@ class AwsConnection(AwsSecurityContext, Connection):
         self.sesh = Session(self.access_key_id,
                             self.secret_access_key,
                             'us-west-1')
-        self._emr_connect()
+        # self._emr_connect()
         self._s3_connect()
 
 
     def _emr_connect(self):
         """Connect to emr.
         """
-        #EmrConnection.DefaultRegionName = 'us-west-1'
         self.emr_conn = EmrConnection(aws_access_key_id=self.access_key_id,
                                       aws_secret_access_key=self.secret_access_key)
     def _s3_connect(self):
