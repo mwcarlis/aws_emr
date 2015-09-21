@@ -1,0 +1,4 @@
+"""A Face reducer.
+"""
+
+
