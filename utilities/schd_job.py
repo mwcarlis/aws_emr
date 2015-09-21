@@ -66,7 +66,7 @@ class MrSchdJob(threading.Thread, SchdJob):
 
 class TestIterT(threading.Thread):
     def __init__(self):
-        super(TestT, self).__init__()
+        super(TestIterT, self).__init__()
         self.alive = threading.Event()
         self.finished = False
         self.queue = []

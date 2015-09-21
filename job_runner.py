@@ -64,11 +64,6 @@ class AwsJobRunner(AwsConnection, JobRunner):
         print data
         return data
 
-    def terminate_the_connections(self):
-        """
-        """
-        pass
-
 if __name__ == '__main__':
     config = AwsConfiguration()
     max_wlen = 8
