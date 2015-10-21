@@ -3,6 +3,7 @@
 import re
 
 from mrjob.job import MRJob
+import numpy
 
 #from cluster_iface.security_context import AwsSecurityContext
 #from cluster_iface.configuration import AwsConfiguration

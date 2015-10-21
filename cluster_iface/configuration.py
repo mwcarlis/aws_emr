@@ -11,6 +11,10 @@ class Configuration(object):
     def __init__(self):
         pass
 
+
+##  Possible opencv library dependancies.
+#'sudo apt-get install -y cmake libgtk2.0-dev pkg-config libavcodec-dev libavformat-devlibswscale-dev libamd2.2.0 libblas3gf libc6 libgcc1 libgfortran3 liblapack3gf libumfpack5.4.0 libstdc++6 build-essential gfortran libatlas-dev libatlas3-base libblas-dev liblapack-dev libjpeg-dev libpng-dev libtiff-devlibjasper-dev'
+
 class AwsConfiguration(Configuration):
     """An AwsConfiguration for environment configuration control.
     """
@@ -22,7 +26,7 @@ class AwsConfiguration(Configuration):
             'emr': {
                 # 'aws-region': 'us-east-1',
                 ##### Cost Factors #####
-                'num_ec2_instances': 2,
+                'num_ec2_instances': 1,
                 'ec2_core_instance_type': 'm1.small',
                 'max_hours_idle': 1,
                 'mins_to_end_of_hour': 10,
@@ -35,7 +39,25 @@ class AwsConfiguration(Configuration):
 
                 ##### Other #####
                 'label': 'mcmc_konix',
-                'ssh_tunnel_to_job_tracker': True
+                'ssh_tunnel_to_job_tracker': True,
+                'bootstrap': [
+                    # Update the apt-repo/OS/libraries.
+                    'sudo apt-get -y update',
+                    #'sudo apt-get -y upgrade',
+
+                    # Switch to Python 2.7.10
+                    #'curl -kL https://raw.github.com/utahta/pythonbrew/master/pythonbrew-install | bash',
+                    #'. $HOME/.pythonbrew/etc/bashrc',
+                    #'pythonbrew install 2.7.10',
+                    #'pythonbrew switch 2.7.10',
+
+                    # Get common python libraries.
+                    # python2.7-dev is missing something. Do we need it?
+                    #'sudo apt-get install -y python2.7-dev',
+                    'sudo apt-get install -y python-pip',
+                    'sudo pip install numpy',
+                    'sudo apt-get install -y python-opencv'
+                ]
                 # 'python_archives': None
             },
             'inline': {
